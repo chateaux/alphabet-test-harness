@@ -17,7 +17,7 @@
         }
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^1.13"
+        "friendsofphp/php-cs-fixer": "^2.14"
     },
     "scripts": {
 		"cs-check": "php-cs-fixer --version && php-cs-fixer fix -v --diff --dry-run"
