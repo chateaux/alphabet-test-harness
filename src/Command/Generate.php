@@ -77,15 +77,15 @@ class Generate
     {
         $fp = 1;
         $playCount = 0;
-        $fpIterations = 1000000;
+        $fpIterations = Line::prompt('Set fast play iterations ', false, 8 );
         $fastplay = Prompt\Confirm::prompt("Fast play (play $fpIterations games a time)? [y/n]");
         $loop = true;
         $balance = 0;
         $ticketCost = 5;
-        $win = 0;
-        $cost = 0;
-        $winLevelStats = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0,  8 => 0,];
-        $prize = [0 => 0, 1 => 0, 2 => 0, 3 => 10, 4 => 50, 5 => 1000, 6 => 100000, 7 => 1000000, 8 => 0,];
+        $collect = 0;
+        $bet = 0;
+        $collectLevelStats = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0,  8 => 0,];
+        $prize = [0 => 0, 1 => 0, 2 => 0, 3 => 15, 4 => 50, 5 => 1000, 6 => 100000, 7 => 1000000, 8 => 0,];
         $min = 1;
         $max = 49;
         $selectNumbers = 7;
@@ -101,7 +101,7 @@ class Generate
                 $console->writeLine("The lucky letter A counts for 2 matches!");
                 $console->writeLine("Selecting $selectNumbers numbers from a pool of $min to $max...");
             }
-            $console->write("Count: ".$playCount);
+            $console->writeLine("Count: ".$playCount);
 
             $result = $this->zendMathRand->getRandomLetters(
                 $selectNumbers,
@@ -123,9 +123,9 @@ class Generate
                     usleep(200000);
                 }
             }
-            $cost = $cost + $ticketCost;
-            $win = $win + $prize[$result['winLevel']];
-            $winLevelStats[$result['winLevel']] = $winLevelStats[$result['winLevel']] + 1;
+            $bet = $bet + $ticketCost;
+            $collect = $collect + $prize[$result['winLevel']];
+            $collectLevelStats[$result['winLevel']] = $collectLevelStats[$result['winLevel']] + 1;
             $balance = $balance + $prize[$result['winLevel']];
 
             if (!$fastplay or $fp > $fpIterations) {
@@ -138,19 +138,20 @@ class Generate
                 $table->appendRow(['You matched:', $result['winLevel'] . ' ' . $subject, ""]);
                 $table->appendRow(['You won:', "$" . $prize[$result['winLevel']], ""]);
                 $table->appendRow(['Your balance is:', "$$balance", ""]);
-                $table->appendRow(['Game bets:', "$$cost", ""]);
-                $table->appendRow(['Game collects:', "$$win", ""]);
-                $table->appendRow(['Operator standing:', "$" . ($cost - $win), ""]);
-                foreach ($winLevelStats as $key => $level) {
+                $table->appendRow(['Game bets:', "$$bet", ""]);
+                $table->appendRow(['Game collects:', "$$collect", ""]);
+                $table->appendRow(['Operator standing:', "$" . ($bet - $collect), number_format((($bet - $collect)/$bet)*100, 2, '.', '')."%"]);
+                foreach ($collectLevelStats as $key => $level) {
                     $table->appendRow(["Level: $key ($$prize[$key])", "$level", "$" . ($level * $prize[$key])]);
                 }
                 echo $table;
             }
 
             if (!$fastplay or $fp > $fpIterations) {
-                $fp = 1;
+                $fp = 0;
                 $loop = Prompt\Confirm::prompt('Play again? [y/n]');
                 if ($loop) {
+                    $fpIterations = Line::prompt('Set fast play iterations ', false, 8 );
                     $fastplay = Prompt\Confirm::prompt("Fast play (play $fpIterations games a time)? [y/n]");
                 }
             }
