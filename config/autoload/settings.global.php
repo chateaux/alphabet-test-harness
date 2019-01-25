@@ -2,7 +2,7 @@
 return [
     'general' => [
         'fileLocation' => 'data/',
-        'filenameScale' => 'sc-test-',
-        'filenameBytes' => 'rb-test-',
+        'filenameScale' => 'sc-',
+        'filenameBytes' => 'rb-',
     ],
 ];
