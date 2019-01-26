@@ -200,15 +200,15 @@ class Generate
                 return;
             }
             $fileSize = ($generateNumbers < 347000) ? "< 1MiB" : "~".number_format((float)$generateNumbers/347000, 2, '.', '')."MiB";
-            $filename = $this->config['fileLocation'].$this->config['filenameScale'].\Date('YMd-h:i:s').'-'.$generateNumbers.'('.$min.'to'.$max.')-total('.$iterations.')-file';
+            $filename = $this->config['fileLocation'].$this->config['filenameScale'].\Date('YMd-h:i:s').'-lines'.$generateNumbers.'-scale'.$min.'to'.$max.'-files'.$iterations.'-file#';
             for($n=1;$n<=$iterations;$n++) {
                 $console->writeLine($n." Selecting $generateNumbers iterations from the pool ($min / $max)");
                 $console->writeLine($n." Writing integers to file ($fileSize)",\Zend\Console\ColorInterface::RED);
                 for($i=0;$i<$generateNumbers;$i++) {
                     $result = $this->zendMathRand->getRandomNumber($min, $max);
-                    file_put_contents($filename.'-'.$n, $result.PHP_EOL, FILE_APPEND);
+                    file_put_contents($filename.$n.'.txt', $result.PHP_EOL, FILE_APPEND);
                 }
-                $console->writeLine("Integers written and stored in file: $filename-$n", \Zend\Console\ColorInterface::BLUE);
+                $console->writeLine("Integers written and stored in file: $filename-$n.txt", \Zend\Console\ColorInterface::BLUE);
             }
             $console->writeLine('Ok we are done!',\Zend\Console\ColorInterface::BLUE);
 
@@ -238,8 +238,8 @@ class Generate
 
             $result = Rand::getBytes($mib * 1048576);
 
-            $filename = $this->config['fileLocation'] . $this->config['filenameBytes'] . \Date('y-m-d-h-i-s') . '-bytes(' . $mib . 'MiB)';
-            $console->writeLine("Random bytes stored to file: " . $filename);
+            $filename = $this->config['fileLocation'] . $this->config['filenameBytes'] . \Date('y-m-d-h-i-s') . '-bytes(' . $mib . 'MiB).txt';
+            $console->writeLine("Random bytes stored to file: " . $filename.".txt");
 
             file_put_contents($filename, $result . PHP_EOL, FILE_APPEND);
             $console->writeLine('Ok we are done!', \Zend\Console\ColorInterface::BLUE);
