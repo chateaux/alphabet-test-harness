@@ -199,7 +199,7 @@ class Generate
                 $console->writeLine("We only allow up to 4 iterations.", \Zend\Console\ColorInterface::RED);
                 return;
             }
-            $fileSize = ($generateNumbers < 347000) ? "< 1MB" : "~".number_format((float)$generateNumbers/347000, 2, '.', '')."MB";
+            $fileSize = ($generateNumbers < 347000) ? "< 1MiB" : "~".number_format((float)$generateNumbers/347000, 2, '.', '')."MiB";
             $filename = $this->config['fileLocation'].$this->config['filenameScale'].\Date('YMd-h:i:s').'-'.$generateNumbers.'('.$min.'to'.$max.')-total('.$iterations.')-file';
             for($n=1;$n<=$iterations;$n++) {
                 $console->writeLine($n." Selecting $generateNumbers iterations from the pool ($min / $max)");
@@ -225,20 +225,20 @@ class Generate
         while ($loop == true) {
             $figlet = new \Zend\Text\Figlet\Figlet();
             echo $figlet->render('Get bytes');
-            $meg = Line::prompt(
-                'Enter total MB to generate (1-20): ',
+            $mib = Line::prompt(
+                'Enter total MiB to generate (1-20): ',
                 false,
                 8
             );
-            if ($meg > 20) {
-                $console->writeLine("Sorry, maximum file size is 20MB", \Zend\Console\ColorInterface::RED);
+            if ($mib > 20) {
+                $console->writeLine("Sorry, maximum file size is 20MiB", \Zend\Console\ColorInterface::RED);
                 return;
             }
             $console->writeLine("Saving random bytes");
 
-            $result = Rand::getBytes($meg * 1000000);
+            $result = Rand::getBytes($mib * 1048576);
 
-            $filename = $this->config['fileLocation'] . $this->config['filenameBytes'] . \Date('y-m-d-h-i-s') . '-bytes(' . $meg . 'MB)';
+            $filename = $this->config['fileLocation'] . $this->config['filenameBytes'] . \Date('y-m-d-h-i-s') . '-bytes(' . $mib . 'MiB)';
             $console->writeLine("Random bytes stored to file: " . $filename);
 
             file_put_contents($filename, $result . PHP_EOL, FILE_APPEND);
