@@ -208,7 +208,7 @@ class Generate
                     $result = $this->zendMathRand->getRandomNumber($min, $max);
                     file_put_contents($filename.$n.'.txt', $result.PHP_EOL, FILE_APPEND);
                 }
-                $console->writeLine("Integers written and stored in file: $filename-$n.txt", \Zend\Console\ColorInterface::BLUE);
+                $console->writeLine("Integers written and stored in file: $filename$n.txt", \Zend\Console\ColorInterface::BLUE);
             }
             $console->writeLine('Ok we are done!',\Zend\Console\ColorInterface::BLUE);
 
