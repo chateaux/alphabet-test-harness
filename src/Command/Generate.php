@@ -200,7 +200,7 @@ class Generate
                 return;
             }
             $fileSize = ($generateNumbers < 347000) ? "< 1MiB" : "~".number_format((float)$generateNumbers/347000, 2, '.', '')."MiB";
-            $filename = $this->config['fileLocation'].$this->config['filenameScale'].\Date('YMd-h:i:s').'-lines'.$generateNumbers.'-scale'.$min.'to'.$max.'-files'.$iterations.'-file-';
+            $filename = $this->config['fileLocation'].$this->config['filenameScale'].\Date('y-m-d-h-i-s') . '-' . $iterations;
             for($n=1;$n<=$iterations;$n++) {
                 $console->writeLine($n." Selecting $generateNumbers iterations from the pool ($min / $max)");
                 $console->writeLine($n." Writing integers to file ($fileSize)",\Zend\Console\ColorInterface::RED);
