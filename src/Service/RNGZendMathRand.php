@@ -1,7 +1,7 @@
 <?php
 namespace Application\Service;
 
-use Zend\Math\Rand;
+use Laminas\Math\Rand;
 
 class RNGZendMathRand
 {
@@ -44,6 +44,15 @@ class RNGZendMathRand
         }
         $intersect = array_intersect($pool1, $pool2);
         return count($intersect);
+    }
+
+    public function getWinLevel(int $selectBall, int $poolStart, int $poolEnd): int
+    {
+        /**
+         * STEP 1 - get a win level, this is where our RNG comes into effect
+         */
+        return $this->getWinningLevel($selectBall, $poolStart, $poolEnd);
+
     }
 
     /**

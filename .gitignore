@@ -1,6 +1,7 @@
 vendor
 data/cache/*
 data/*.txt
+data/*.zip
 !data/cache/.gitkeep
 .php_cs.cache
 .idea
